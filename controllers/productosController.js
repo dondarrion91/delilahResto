@@ -7,12 +7,36 @@ exports.getProductos = async(req,res) => {
     try{
         const productos = await Productos.findAll();
         res.json(productos);
-    }catch(error){
-        console.log(error);
-        res.status(404).json({
+    }catch(error){        
+        res.status(500).json({
             message: "Error"
         });
     }    
+}
+
+// obtener un producto con el id
+exports.getProducto = async (req,res) => {
+    try{
+        const producto = await Productos.findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+
+        if(!producto){
+            res.status(404).json({
+                message: "Producto no encontrado"
+            });
+            next();
+        }
+
+        res.json(producto);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            message: "Error"
+        });
+    } 
 }
 
 // agregar producto

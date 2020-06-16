@@ -11,6 +11,9 @@ module.exports = () => {
     // lista de productos
     router.get('/productos',productosController.getProductos);
 
+    // Obtener un producto
+    router.get('/productos/:id',productosController.getProducto);
+
     // Agregar producto
     router.post('/productos',productosController.agregarProducto);
 
