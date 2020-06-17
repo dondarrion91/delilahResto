@@ -8,12 +8,14 @@ const routes = require('./routes/index');
 const db = require('./config/db');
 require('dotenv').config({path: 'variables.env'});
 require('./models/Productos');
+require('./models/Usuarios');
 db.sync() 
   .then(() => console.log("Conectado a BBDD"))
   .catch(error => console.log(error));
 
 // bodyparser
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // static files
 app.use(express.static('public'));
@@ -24,7 +26,7 @@ app.use(morgan('dev'));
 // rutas
 app.use('/',routes());
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 
 
