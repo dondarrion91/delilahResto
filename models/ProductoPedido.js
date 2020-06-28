@@ -3,11 +3,15 @@ const Sequelize = require('sequelize');
 
 const db = require('../config/db');
 
-const Productos = db.define('productos',{
+const ProductoPedido = db.define('productoPedido',{
+    idPedidoProducto: {        
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     id: {
         allowNull: false,
-        type: Sequelize.STRING,
-        primaryKey: true,               
+        type: Sequelize.STRING,                     
     },
     nombre: {
         allowNull: false,
@@ -19,13 +23,6 @@ const Productos = db.define('productos',{
         type:Sequelize.INTEGER,
 
     },   
-},{
-    indexes: [
-        {
-          unique: true,
-          fields: ['nombre']
-        }
-      ]
 });
 
-module.exports = Productos;
+module.exports = ProductoPedido;

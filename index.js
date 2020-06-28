@@ -9,6 +9,8 @@ const db = require('./config/db');
 require('dotenv').config({path: 'variables.env'});
 require('./models/Productos');
 require('./models/Usuarios');
+require('./models/Pedidos');
+require('./models/ProductoPedido');
 db.sync() 
   .then(() => console.log("Conectado a BBDD"))
   .catch(error => console.log(error));

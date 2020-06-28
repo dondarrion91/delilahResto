@@ -4,6 +4,7 @@ const router = express.Router();
 // controladores
 const productosController = require('../controllers/productosController');
 const usuariosController = require('../controllers/usuariosController');
+const pedidosController = require('../controllers/pedidosController');
 
 // middlewares
 const auth = require('../middlewares/auth');
@@ -17,7 +18,7 @@ module.exports = () => {
 
     // lista de productos
     router.get('/productos',
-        auth,admin,productosController.getProductos
+        auth,productosController.getProductos
     );
 
     // Obtener un producto
@@ -40,7 +41,25 @@ module.exports = () => {
     //login
     router.post('/login',usuariosController.loginUsuario);
     // hacer admin
-    router.put('/admin/:user',auth,usuariosController.adminUsuario);
+    router.put('/admin/:user',auth,admin,usuariosController.adminUsuario);
+
+    /**
+     * Pedidos
+     */
+    // crea un nuevo pedido
+    router.post('/pedidos/nuevo',auth,pedidosController.nuevoPedido);
+
+    // Obtiene todos los pedidos si el usuario es admin , sino solamente los que le pertenecen
+    router.get('/pedidos',auth,pedidosController.getPedidos);
+
+    // Obtener un pedido
+    router.get('/pedidos/:id',auth,admin,pedidosController.getPedido);    
+
+    // Modificar pedido
+    router.put('/pedidos/editar/:id',auth,admin,pedidosController.modificarPedido);
+
+    // Borrar pedido
+    router.delete('/pedidos/eliminar/:id',auth,admin,pedidosController.eliminarPedido);
 
 
     return router;

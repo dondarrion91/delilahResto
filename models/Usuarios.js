@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 
+const Pedidos = require('./Pedidos');
+
 const db = require('../config/db');
 
 const Usuarios = db.define('usuarios',{
@@ -35,5 +37,7 @@ const Usuarios = db.define('usuarios',{
     },
     activo: Sequelize.BOOLEAN
 });
+
+Usuarios.hasMany(Pedidos);
 
 module.exports = Usuarios;

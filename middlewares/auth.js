@@ -9,7 +9,9 @@ module.exports = async (req,res,next) => {
     if(!header){
         const error = new Error('No autenticado, no hay JWT');
         error.statusCode = 401;
-        res.json(error);
+        res.status(401).json({            
+            message: error.message
+        });
     }
 
     // filtra el token del header
@@ -18,18 +20,21 @@ module.exports = async (req,res,next) => {
     // Si el token verifica entonces pasa al middlaware siguiente sino error
     try{
         revisarToken = jwt.verify(token,process.env.SECRETKEY);             
-    }catch(error){
-        error.statusCode = 500;
-        res.json(error);
+        next(); 
+    }catch(error){        
+        res.status(401).json({            
+            message: error.message
+        });
     }
 
     // Instancia error en caso de no existir el token en el header
     if(!revisarToken){
         const error = new Error('No autenticado');
         error.statusCode = 401;
-        res.json(error);
+        res.status(401).json({            
+            message: error.message
+        });
     }
-
-    next(); 
+    
 
 };

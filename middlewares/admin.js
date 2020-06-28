@@ -2,7 +2,7 @@ const Usuarios = require('../models/Usuarios');
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req,res,next) => {
-
+    
     // Trae el token desde el header del request
     const header = req.get("Authorization");
 

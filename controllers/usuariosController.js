@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // registrar usuario
 exports.registrarUsuario = async(req,res,next) =>  {     
     try{
+        console.log(req.body)
         // objeto usuario traido del request
         let {user,nombre,telefono,direccion,password,email} = req.body; 
 
