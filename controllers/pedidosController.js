@@ -1,9 +1,11 @@
 const Pedidos = require('../models/Pedidos');
 const Usuarios = require('../models/Usuarios');
+const Estados = require('../models/Estados');
 const ProductoPedido = require('../models/ProductoPedido');
 const jwt = require("jsonwebtoken");
+const sequelize = require("../config/db");
 
-exports.nuevoPedido = async (req,res) => {    
+exports.nuevoPedido =  async (req,res) => {    
 
     // Trae el token desde el header del request
     const header = req.get("Authorization");
@@ -12,7 +14,11 @@ exports.nuevoPedido = async (req,res) => {
     const token = header.split(' ')[1];
     let revisarToken;
 
-    try{
+    // transaction object
+    const t = await sequelize.transaction();
+
+    try{        
+
         revisarToken = jwt.verify(token,process.env.SECRETKEY);               
         
         let usuarioId = revisarToken.id;
@@ -21,15 +27,18 @@ exports.nuevoPedido = async (req,res) => {
         let pago = 0;
         
         req.body.forEach(element => {
-            pago += element.precio
+            console.log(element)
+            if(element.hasOwnProperty("precio")){
+                pago += element.precio
+            }            
         });
+                
         
-
         // Creo el pedido
         const nuevopedido = await Pedidos.create({
             pago,
             usuarioId
-        });
+        },{transaction:t});
 
         // id del pedido
         let pedidoId = nuevopedido.id;
@@ -39,16 +48,20 @@ exports.nuevoPedido = async (req,res) => {
         });
         
 
-        await ProductoPedido.bulkCreate(req.body);
+        await ProductoPedido.bulkCreate(req.body,{transaction:t});
+
+        // commit 
+        await t.commit();
 
         res.json({
             message: "Pedido creado con exito"
         });
     }catch(error){
-        console.log(error);
-        res.status(500).json({
+        console.log(error);        
+        await t.rollback();
+        res.status(500).json({           
             message: error.message
-        });
+        });        
     }
     
 }
@@ -183,19 +196,13 @@ exports.getPedido = async (req,res) => {
 // Modificar pedido
 exports.modificarPedido = async (req,res) => {
 
-    // array de estados
-    const estados = ["nuevo","confirmado","preparando","enviando","cancelado","entregado"];
-
     // estado a modificar
     let {estado} = req.body;
-    estado = estado.toLowerCase().trim();  
+
+    // array de estados
+    const nuevoEstado = await Estados.findByPk(estado);
     
-    if(estados.indexOf(estado) === -1){
-        // estado invalido
-        res.status(403).json({
-            message: "Estado invalido"
-        });
-    }
+    console.log(nuevoEstado);
 
     try{                                           
         
@@ -203,7 +210,7 @@ exports.modificarPedido = async (req,res) => {
         // cambia el estado del pedido
         const pedidos = await Pedidos.update(
             {
-                estado                
+                estado: nuevoEstado.dataValues.nombre                
             },
             {where:{
                 id: req.params.id

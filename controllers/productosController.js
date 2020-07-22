@@ -2,6 +2,21 @@
 const Productos = require('../models/Productos');
 const shortid = require('shortid');
 
+// multer
+const multer = require('../modules/Multer');
+
+// upload file
+exports.uploadFile = (req,res,next) => {
+    multer(req,res,function(error){
+        if(error) {
+            res.json({
+                message: error
+            });
+        }
+        return next();
+    })
+}
+
 // lista de productos
 exports.getProductos = async(req,res) => {
     try{
@@ -47,7 +62,8 @@ exports.agregarProducto = async (req,res) => {
         const productos = await Productos.create({
             id: shortid.generate(),
             nombre,
-            precio
+            precio,
+            imagen: req.file.filename
         });
     
         res.json({

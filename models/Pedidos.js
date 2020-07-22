@@ -14,14 +14,14 @@ const Pedidos = db.define('pedidos',{
     estado: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "nuevo"
+        defaultValue: "NUEVO"
     },
     hora: {
         type: Sequelize.TIME,    
         defaultValue: Sequelize.NOW 
     },
     pago: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     }
     
 }); 

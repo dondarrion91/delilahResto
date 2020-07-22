@@ -42,7 +42,8 @@ exports.registrarUsuario = async(req,res,next) =>  {
 } 
 
 // login
-exports.loginUsuario = async(req,res,next) => {
+exports.loginUsuario = async(req,res,next) => {    
+
     // usuario , password
     let {user,password} = req.body;
 

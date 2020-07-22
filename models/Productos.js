@@ -19,6 +19,7 @@ const Productos = db.define('productos',{
         type:Sequelize.INTEGER,
 
     },   
+    imagen: Sequelize.STRING
 },{
     indexes: [
         {

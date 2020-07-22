@@ -22,7 +22,8 @@ const ProductoPedido = db.define('productoPedido',{
         allowNull: false,
         type:Sequelize.INTEGER,
 
-    },   
+    }, 
+    imagen: Sequelize.STRING      
 });
 
 module.exports = ProductoPedido;
