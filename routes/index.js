@@ -33,7 +33,12 @@ module.exports = () => {
     );
 
     // Modificar Producto
-    router.put('/api/v1/productos/:id',auth,admin,productosController.modificarProducto);
+    router.put('/api/v1/productos/:id',
+        auth,
+        admin,
+        productosController.uploadFile,
+        productosController.modificarProducto
+    );
 
     // Borrar Producto
     router.delete('/api/v1/productos/:id',auth,admin,productosController.eliminarProductos);

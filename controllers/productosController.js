@@ -96,7 +96,8 @@ exports.modificarProducto = async (req,res) => {
         await Productos.update(
             {
                 nombre,
-                precio
+                precio,
+                imagen: req.file.filename
             },
             {where:{
                 id: req.params.id
