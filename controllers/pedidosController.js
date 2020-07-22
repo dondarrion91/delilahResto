@@ -195,10 +195,10 @@ exports.getPedido = async (req,res) => {
 
 // Modificar pedido
 exports.modificarPedido = async (req,res) => {
-
+    console.log(req.body)
     // estado a modificar
     let {estado} = req.body;
-
+    console.log(estado)
     // array de estados
     const nuevoEstado = await Estados.findByPk(estado);
     
