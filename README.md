@@ -96,7 +96,7 @@ Enviar un formdata() con los siguientes valores: nombre,precio,imagen(archivo).
 ```
 Igual que el caso del post , enviar un formdata() con las propiedades.
 
-5) eliminar producto PUT:
+5) eliminar producto DELETE:
 ```
 /api/v1/productos/:id
 ```
@@ -161,7 +161,7 @@ Entonces los estados son del 1 al 5 , 1 para nuevo , 2 para confirmado, 3 para p
 }
 ```
 
-5) eliminar pedido PUT:
+5) eliminar pedido DELETE:
 ```
 /api/v1/pedidos/:id
 ```
