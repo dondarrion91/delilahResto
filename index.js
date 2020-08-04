@@ -44,7 +44,7 @@ app.use(cors());
 // rutas
 app.use('/',routes());
 
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3002;
 const host = process.env.HOST || '0.0.0.0';
 
 
